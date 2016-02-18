@@ -3,9 +3,10 @@ require 'pry'
 class Developer
   #нужно доработать метод с константой
   MAX_TASKS = 10
+
   def initialize(name)
     @name = name
-		@tasks = []
+	  @tasks = []
   end
 	
   def add_task(task)
@@ -37,8 +38,41 @@ class Developer
     when 10 then puts "занят"
     end
   end
+
+  def can_add_task?
+    @tasks.count < MAX_TASKS
+  end
+
+  def can_work?
+    MAX_TASKS > @tasks.count
+  end
 end
 
-d = Developer.new('Test_Dev')
+class JuniorDeveloper < Developer
+  def add_task(task)
+    @tasks.push(task)
+    if @tasks.count == MAX_TASKS - 5
+      raise(ArgumentError, "Слишком много работы!")
+    else
+      puts %Q("#{@name}: добавлена задача "#{task}". Всего в списке задач: #{@tasks.count}")
+    end
+  end
+end
+
+class SeniorDeveloper < Developer
+  def add_task(task)
+    @tasks.push(task)
+    if @tasks.count == MAX_TASKS + 5
+      raise(ArgumentError, "Слишком много работы!")
+    else
+      puts %Q("#{@name}: добавлена задача "#{task}". Всего в списке задач: #{@tasks.count}")
+    end
+  end
+end
+
+
+d = Developer.new('Developer')
+j = JuniorDeveloper.new('Junior')
+s = SeniorDeveloper.new('Senior')
 
 binding.pry
