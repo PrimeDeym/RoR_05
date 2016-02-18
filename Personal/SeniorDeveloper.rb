@@ -1,4 +1,5 @@
 require 'pry'
+require_relative 'Developer.rb'
 
 class SeniorDeveloper < Developer
   def add_task(task)
