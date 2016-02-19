@@ -3,10 +3,13 @@ require 'pry'
 class Developer
   #нужно доработать метод с константой
   MAX_TASKS = 10
+  def max_tasks
+    self.class::MAX_TASKS
+  end
 
   def initialize(name)
     @name = name
-	  @tasks = []
+    @tasks = []
   end
 	
   def add_task(task)
@@ -19,12 +22,12 @@ class Developer
   end
 
   def tasks
-    @tasks.each_with_index.each { |a, i| puts "#{i+1}. #{a.capitalize}"}
+    @tasks.each_with_index { |a, i| puts "#{i+1}. #{a.capitalize}"}
   end
 
   def work!
     done = @tasks.shift
-    if done == nil
+    unless done
       raise(ArgumentError, "Нечего делать!")
     else
       puts %Q("#{@name}: выполнена задача "#{done}". Осталось задач: #{@tasks.count}")
@@ -44,7 +47,7 @@ class Developer
   end
 
   def can_work?
-    MAX_TASKS > @tasks.count
+    @tasks.count >= 1
   end
 end
 
