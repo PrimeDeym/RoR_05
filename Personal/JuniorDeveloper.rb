@@ -15,11 +15,11 @@ class JuniorDeveloper < Developer
   end
 
   def work!
-    done = @tasks.shift
-    unless done
+    if @tasks.empty?
       raise(ArgumentError, "Нечего делать!")
     else
-      puts %Q("#{@name}: пытаюсь выполнить задачу "#{done}". Осталось задач: #{@tasks.count}")
+      puts %Q("%s: пытаюсь выполнить задачу "%s". Осталось задач: %i") %
+           [@name, @tasks.shift, @tasks.count]
     end
   end
 

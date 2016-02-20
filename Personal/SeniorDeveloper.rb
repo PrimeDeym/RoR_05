@@ -4,46 +4,32 @@ require_relative 'Developer.rb'
 class SeniorDeveloper < Developer
   MAX_TASKS = 15
   def add_task(task)
-    if @tasks.count == MAX_TASKS
-      raise(ArgumentError, "Слишком много работы!")
+    if can_add_task?
+      @tasks.push(task)
+      puts %Q("%s: добавлена задача "%s". Всего в списке задач: %i") %
+           [@name, task, @tasks.count]
     else
-      super
+      raise(ArgumentError, "Слишком много работы!")
     end
   end
   
   def work!
-    case rand(2)
-    when 0 then puts "Что-то лень"
-    when 1 
-      puts %Q(%n: выполнена задача "%d" "%d". Осталось задач: %c")
-      [@name, @tasks.delete_at(0), @tasks.count]
-    else   
-      super
-    end    
+    if @tasks.empty?
+      raise(ArgumentError, "Нечего делать!")
+    elsif @tasks.size == 1
+      puts %Q("%s: выполнена задача "%s". Осталось задач: %i") %
+           [@name, @tasks.shift, @tasks.count]
+    elsif rand > 0.6
+      puts %Q("%s: выполнена задача "%s и %s". Осталось задач: %i") %
+           [@name, @tasks.shift, @tasks.count]
+    else
+      puts 'Что-то лень'
+    end
   end
 
-
-
-
-
-
-
-
-  # def work!
-  #   if @tasks.empty? 
-  #     raise(ArgumentError, "Нечего делать!")
-  #   elsif @tasks.size == 1
-  #     puts %Q("#{@name}: выполнена задача "#{@tasks.delete_at(0)}". Осталось задач: #{@tasks.count}")
-  #   end
-      
-  #   case rand(2)
-  #   when 0 then puts "Что-то лень"
-  #   when 1 
-  #     puts %Q("#{@name}: выполнена задача "#{@tasks.delete_at(0)}" "#{@tasks.delete_at(0)}". Осталось задач: #{@tasks.count}")
-  #   else   
-  #     puts  
-  #   end
-  # end
+  def can_add_task?
+    @tasks.count < MAX_TASKS
+  end
 end
 
 #binding.pry

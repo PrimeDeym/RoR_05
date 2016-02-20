@@ -1,8 +1,8 @@
 require 'pry'
 
 class Developer
-  #нужно доработать метод с константой
   MAX_TASKS = 10
+  #нужно доработать метод с константой
   def max_tasks
     self.class::MAX_TASKS
   end
@@ -10,42 +10,49 @@ class Developer
   def initialize(name)
     @name = name
     @tasks = []
+    
   end
 	
   def add_task(task)
-    @tasks.push(task)
-    if @tasks.count == MAX_TASKS
-      raise(ArgumentError, "Слишком много работы!")
+    if can_add_task?
+      @tasks.push(task)
+      puts %Q("%s: добавлена задача "%s". Всего в списке задач: %i") %
+           [@name, task, @tasks.count]
     else
-      puts %Q("#{@name}: добавлена задача "#{task}". Всего в списке задач: #{@tasks.count}")
+      raise(ArgumentError, "Слишком много работы!")
     end
   end
 
   def tasks
-    @tasks.each_with_index { |a, i| puts "#{i+1}. #{a.capitalize}"}
+    @tasks.each_with_index {|a, i| puts "#{i+1}. #{a.capitalize}"}
+    if @tasks.empty?
+      puts "Нет задач для выполнения"
+    end
   end
 
   def work!
-    done = @tasks.shift
-    unless done
+    if can_work?
       raise(ArgumentError, "Нечего делать!")
     else
-      puts %Q("#{@name}: выполнена задача "#{done}". Осталось задач: #{@tasks.count}")
+      puts %Q("%s: выполнена задача "%s". Осталось задач: %i") %
+           [@name, @tasks.shift, @tasks.count]
     end
   end
 
   def status
-    case @tasks.count
-    when 0 then puts "свободен"
-    when 1..9 then puts "работаю"
-    when 10 then puts "занят"
+    if @tasks.empty?
+      puts 'свободен'
+    elsif can_add_task?
+      puts 'работаю'
+    else
+      puts 'занят'
     end
   end
-
+#если нет заданий true, потом false
   def can_add_task?
     @tasks.count < MAX_TASKS
   end
-
+#если нет заданий то false, остальное true
   def can_work?
     @tasks.count >= 1
   end
