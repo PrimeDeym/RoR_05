@@ -2,7 +2,7 @@ require 'pry'
 
 class Developer
   MAX_TASKS = 10
-  #нужно доработать метод с константой
+
   def max_tasks
     self.class::MAX_TASKS
   end
@@ -17,7 +17,7 @@ class Developer
     if can_add_task?
       @tasks.push(task)
       puts %Q("%s: добавлена задача "%s". Всего в списке задач: %i") %
-           [@name, task, @tasks.count]
+             [@name, task, @tasks.count]
     else
       raise(ArgumentError, "Слишком много работы!")
     end
@@ -31,12 +31,15 @@ class Developer
   end
 
   def work!
-    if can_work?
+    not_working
+    puts %Q("%s: выполнена задача "%s". Осталось задач: %i") %
+           [@name, @tasks.shift, @tasks.count]   
+  end
+
+  def not_working
+    unless can_work?
       raise(ArgumentError, "Нечего делать!")
-    else
-      puts %Q("%s: выполнена задача "%s". Осталось задач: %i") %
-           [@name, @tasks.shift, @tasks.count]
-    end
+    end   
   end
 
   def status
@@ -48,11 +51,11 @@ class Developer
       puts 'занят'
     end
   end
-#если нет заданий true, потом false
+
   def can_add_task?
-    @tasks.count < MAX_TASKS
+    @tasks.count < max_tasks
   end
-#если нет заданий то false, остальное true
+
   def can_work?
     @tasks.count >= 1
   end
