@@ -2,6 +2,8 @@ require_relative 'developer.rb'
 
 class SeniorDeveloper < Developer
   MAX_TASKS = 15
+  PROF = :senior
+  TEAM = :seniors
   
 
   def work!
@@ -16,4 +18,3 @@ class SeniorDeveloper < Developer
   end
 end
 
-#binding.pry

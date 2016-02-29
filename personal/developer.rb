@@ -1,13 +1,15 @@
 class Developer
   MAX_TASKS = 10
+  PROF = :developer
+  TEAM = :developers
 
-  def max_tasks
-    self.class::MAX_TASKS
-  end
+  attr_reader :name, :tasks, :prof
 
-  def initialize(*name)
+
+  def initialize(name)
     @name = name
-    @prof = PROF
+    @prof = prof
+    @team = team
     @tasks = []
   end
 
@@ -22,7 +24,7 @@ class Developer
   end
 
   def tasks
-    @tasks.map.with_index { |t, i| "#{i + 1}. #{t}" }.join("\n")
+    @tasks.each_with_index { |t, i| "#{i + 1}. #{t}" }.join(", ")
   end
 
   def work!
@@ -54,6 +56,17 @@ class Developer
   def can_work?
     @tasks.size >= 1
   end
+
+  def prof
+    self.class::PROF
+  end
+
+  def team
+    self.class::TEAM
+  end
+
+  def max_tasks
+    self.class::MAX_TASKS
+  end
 end
 
-#binding.pry

@@ -2,6 +2,8 @@ require_relative 'developer.rb'
 
 class JuniorDeveloper < Developer
   MAX_TASKS = 5
+  PROF = :junior
+  TEAM = :juniors
   
   def add_task(task)
     if task.size > 20
@@ -18,5 +20,3 @@ class JuniorDeveloper < Developer
 
   end
 end
-
-#binding.pryss
