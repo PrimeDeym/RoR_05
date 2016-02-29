@@ -44,13 +44,11 @@ class Team
 
   def add_task(task, **options)   
     @options = options
-    @options
     if @options.empty?
       dev_all.at(0).add_task(task)
     elsif @options.include?(:to)
       name = dev_all.select { |dev| @options.key(dev.name) }
-      name.at(0).add_task(task)                                                                                                
-        
+      name.at(0).add_task(task)
     else
       developer = dev_all.select { |dev| @options.key(dev.prof) }
       developer.at(0).add_task(task)
